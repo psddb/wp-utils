@@ -11,8 +11,10 @@ namespace Denman_Utils\v2;
 use ArrayObject;
 use DateTime;
 use InvalidArgumentException;
+use LengthException;
 use WP_Block;
 use WP_Post;
+use WP_Post_Type;
 use WP_Query;
 use WP_Term;
 use WP_Taxonomy;
@@ -139,7 +141,7 @@ function str_bookend(string $str, string $bookend): string
  * @since 1.0.0
  * @param string $str Subject.
  * @param string $prefix Substring to look for/remove from start.
- * @param int $max Optional. Max number of times to unperfix, <0 means no limit. Default -1.
+ * @param int $max Optional. Max number of times to unprefix, <0 means no limit. Default -1.
  * @return string
  */
 function str_unprefix(string $str, string $prefix, int $max = -1): string
@@ -148,6 +150,7 @@ function str_unprefix(string $str, string $prefix, int $max = -1): string
 	$count = 0;
 	while ($prefix && ($max === -1 || $count < $max) && \str_starts_with($str, $prefix)) {
 		$str = substr($str, strlen($prefix));
+		$count++;
 	}
 	return $str;
 }
@@ -157,7 +160,7 @@ function str_unprefix(string $str, string $prefix, int $max = -1): string
  *
  * @since 1.0.0
  * @param string $str Subject.
- * @param string $prefix Substring to look for/remove from end.
+ * @param string $postfix Substring to look for/remove from end.
  * @param int $max Optional. Max number of times to unpostfix, <0 means no limit. Default -1.
  * @return string
  */
@@ -167,6 +170,7 @@ function str_unpostfix(string $str, string $postfix, int $max = -1): string
 	$count = 0;
 	while ($postfix && ($max === -1 || $count < $max) && \str_ends_with($str, $postfix)) {
 		$str = substr($str, 0, -strlen($postfix));
+		$count++;
 	}
 	return $str;
 }
@@ -225,7 +229,7 @@ function str_quote(string $str): string
  * @uses str_bookend
  * @since 1.0.0
  * @param string $format Format string.
- * @param string[]|object Array of search/replace pairs, or object with public non-static properties
+ * @param string[]|object $pairs Array of search/replace pairs, or object with public non-static properties
  * @return string
  */
 function sprintf_keys(string $format, $pairs): string
@@ -1198,7 +1202,7 @@ function get_asset_path(string ...$segments): string
  *
  * @since 1.0.0
  * @uses get_asset_path
- * @param string[]|string ...$segments A series or array of path segments.
+ * @param string[]|string ...$path_segments A series or array of path segments.
  * @return string
  */
 function get_asset_contents(string ...$path_segments): string
@@ -1800,7 +1804,7 @@ function hex_str_to_rgba_array(string $hex_color, float $alpha_fallback = 1.0): 
 /**
  * Get an array of RGBA values from an RGBA color string.
  * @since 1.1.0
- * @param string $hex_color
+ * @param string $rgba_str
  * @return array
  */
 function rgba_str_to_rgba_array(string $rgba_str): array
