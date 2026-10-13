@@ -12,14 +12,14 @@ Either download and include manually, or merge the appropriate required version 
 ```jsonc
 {
 	"require": {
-		// "denman-digital/wp-utils": "^1.0" // PHP 5.6+
-		// "denman-digital/wp-utils": "^1.1" // PHP 7.4+
-		"denman-digital/wp-utils": "^2.0" // PHP 8.1+
+		// "psddb/wp-utils": "^1.0" // PHP 5.6+
+		// "psddb/wp-utils": "^1.1" // PHP 7.4+
+		"psddb/wp-utils": "^2.0" // PHP 8.1+
 	},
 	"repositories": [
 		{
 			"type": "vcs",
-			"url": "https://github.com/Denman-Digital/wp-utils"
+			"url": "https://github.com/psddb/wp-utils"
 		}
 	]
 }
