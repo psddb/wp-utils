@@ -1,7 +1,7 @@
 {
 	"name": "psddb/wp-utils",
 	"description": "PHP utilities for WordPress development.",
-	"version": "2.0.7",
+	"version": "2.0.8",
 	"type": "library",
 	"keywords": [
 		"WordPress",

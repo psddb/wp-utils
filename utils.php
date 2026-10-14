@@ -12,7 +12,6 @@ use ArrayObject;
 use DateTime;
 use InvalidArgumentException;
 use LengthException;
-use WP_Block;
 use WP_Post;
 use WP_Post_Type;
 use WP_Query;
@@ -1497,15 +1496,16 @@ function has_read_more_tag($post = null): bool
 /**
  * Given an array of blocks, append any contained Inner Blocks.
  * @since 1.1.0
- * @param WP_Block[] $blocklist
- * @return WP_Block[]
+ * @param array $blocklist
+ * @return array
  */
 function flatten_blocklist(array $blocklist): array
 {
 	return array_reduce($blocklist, function ($carry, $item) {
 		$carry[] = $item;
-		if (!empty($item->innerBlocks)) {
-			$carry = array_merge($carry, flatten_blocklist($item->innerBlocks));
+		$is_obj = is_object($item);
+		if (!empty($is_obj ? $item->innerBlocks : $item["innerBlocks"])) {
+			$carry = array_merge($carry, flatten_blocklist($is_obj ? $item->innerBlocks : $item["innerBlocks"]));
 		}
 		return $carry;
 	}, []);
